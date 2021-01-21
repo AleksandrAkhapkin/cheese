@@ -1,0 +1,25 @@
+mysql_dsn: "SECRET"
+server_port: ":8088"
+secret_key_jwt: "SECRET"
+path_for_bill: "/home/Documents"
+path_for_sert: "/home/Documents/sert"
+use_ssl: false
+cert_path_ssl: "/home/nedoroot/server.crt"
+key_path_ssl: "/home/nedoroot/server.key"
+giftery_secret: "SECRET"
+proverka_cheka_secret: "SECRET"
+yoomoney_secret_bearer: "SECRET"
+qiwi_secret_bearer:  "SECRET"
+sms_pass: "SECRET"
+sms_login: "SECRET"
+
+telegram:
+  telegram_token: "SECRET"
+  chat_id: "-SECRET"
+  sasha_id: "-SECRET"
+
+server_email:
+  host: "mail.supreme-cheese.ru"
+  port: "465"
+  login: "support@supreme-cheese.ru"
+  pass: "SECRET"
