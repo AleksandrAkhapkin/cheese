@@ -22,6 +22,10 @@ var (
 	errMsg  = "ERROR"
 	token   = ""
 	sashaID = ""
+
+	logger    = zerolog.New(os.Stdout)
+	loggerErr = zerolog.New(os.Stderr)
+	Debug     = true
 )
 
 func NewLogger(t *config.Telegram) error {
@@ -33,9 +37,6 @@ func NewLogger(t *config.Telegram) error {
 	return nil
 }
 
-var logger = zerolog.New(os.Stdout)
-var Debug = true
-
 func CheckDebug() {
 	if Debug {
 		infoMsg += "-DEBUG"
@@ -45,7 +46,7 @@ func CheckDebug() {
 
 func LogError(err error) {
 
-	logger.Err(err).Send()
+	loggerErr.Err(err).Send()
 	SendError(err)
 }
 
@@ -63,28 +64,28 @@ func LogFatal(err error) {
 	t := fmt.Sprintf("[%s]", time.Now().Format("2006-01-02T15:04:05"))
 	err = errors.Wrap(err, t)
 	SendError(err)
-	logger.Fatal().Err(err).Send()
+	loggerErr.Fatal().Err(err).Send()
 
 }
 func SendError(err error) {
 
 	url := makeURLSendMessage(errMsg, urler.QueryEscape(err.Error()))
 	if err := send(url); err != nil {
-		logger.Err(err).Send()
+		loggerErr.Err(err).Send()
 	}
 }
 
 func SendMessage(msg string) {
 	url := makeURLSendMessage(infoMsg, msg)
 	if err := send(url); err != nil {
-		logger.Err(err).Send()
+		loggerErr.Err(err).Send()
 	}
 }
 
 func SendOSForSassha(msg string) {
 	url := makeURLSendOS(infoMsg, msg)
 	if err := send(url); err != nil {
-		logger.Err(err).Send()
+		loggerErr.Err(err).Send()
 	}
 }
 
@@ -116,7 +117,7 @@ func send(urlForSend string) error {
 
 	defer func() {
 		if err = res.Body.Close(); err != nil {
-			logger.Err(err)
+			loggerErr.Err(err)
 		}
 	}()
 	if res.StatusCode != http.StatusOK {
